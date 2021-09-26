@@ -1,4 +1,4 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import s from '../Filter/filter.module.css'
 import { connect } from 'react-redux';
 import { setFilter } from '../../Redux/contacts/contact.actions'
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter)
 
-// Filter.propTypes = {
-//     onFilterInputChange: PropTypes.func.isRequired,
-//     filter: PropTypes.string.isRequired
-// }
+Filter.propTypes = {
+    onFilterInputChange: PropTypes.func.isRequired,
+    filter: PropTypes.string.isRequired
+}

@@ -1,19 +1,17 @@
-import { ADD_CONTACT, REMOVE_CONTACT, SET_FILTER } from './action.types';
+import { createAction } from '@reduxjs/toolkit';
+import shortid from 'shortid';
 
-const addContact = (contact) => ({
-    type: ADD_CONTACT,
-    payload: contact
-})
-
-const removeContact = (id) => ({
-    type: REMOVE_CONTACT,
-    payload: id
-})
-
-const setFilter = (name) => ({
-    type: SET_FILTER,
-    payload: name
-})
+const addContact = createAction('contacts/addContact', (name, number) => {
+    return {
+        payload: {
+            id: shortid.generate(),
+            name,
+            number
+        }
+    };
+});
+const removeContact = createAction('contacts/removeContact')
+const setFilter = createAction('contacts/setFilter')
 
 export {
     addContact,

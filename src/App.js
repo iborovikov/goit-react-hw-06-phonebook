@@ -1,16 +1,15 @@
-import { connect } from 'react-redux';
-import { useEffect } from 'react';
 import './App.css';
-import Form from './Components/Form/Form'
-import Filter from './Components/Filter/filter'
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
+import Form from './Components/Form/Form';
+import Filter from './Components/Filter/filter';
 import ContactList from './Components/Contacts/ContactList';
-import shortid from 'shortid';
-import { addContact, setFilter } from './Redux/contacts/contact.actions'
 
-function App({ addContact, setFilter, contacts, filter }) {
+function App({contacts}) {
 
   useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
+    localStorage.setItem('persist:contacts', JSON.stringify(contacts));
   }, [contacts]);
   
   return (
@@ -25,22 +24,17 @@ function App({ addContact, setFilter, contacts, filter }) {
 };
 
 const mapStateToProps = (state) => {
-    return {
-        contacts: state.contacts.items,
-        filter: state.contacts.filter
-    }
+  return {
+    contacts: state.contacts.items,
+  };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addContact: (name, number) => {
-            const contact = {
-                id: shortid.generate(),
-                name,
-                number
-            };
-             dispatch(addContact(contact))},
-        setFilter: (value) => dispatch(setFilter(value)),
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
+
+App.propTypes = {
+  contacts: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired
+  }))
+};

@@ -1,12 +1,10 @@
-import { useState } from "react"
-// import PropTypes from 'prop-types';
-import s from '../Form/Form.module.css'
+import PropTypes from 'prop-types';
+import s from '../Form/Form.module.css';
+import { useState } from "react";
 import { connect } from 'react-redux';
-import { addContact, setFilter } from '../../Redux/contacts/contact.actions'
-import shortid from 'shortid';
+import { addContact, setFilter } from '../../Redux/contacts/contact.actions';
 
-
-function Form({ addContact, setFilter, contacts, filter }) {
+function Form({ addContact, setFilter, contacts }) {
     
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -81,28 +79,25 @@ function Form({ addContact, setFilter, contacts, filter }) {
 
 const mapStateToProps = (state) => {
     return {
-        contacts: state.contacts.items,
-        filter: state.contacts.filter
-    }
+        contacts: state.contacts.items
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addContact: (name, number) => {
-            const contact = {
-                id: shortid.generate(),
-                name,
-                number
-            };
-             dispatch(addContact(contact))},
+        addContact: (name, number) => dispatch(addContact(name, number)),
         setFilter: (value) => dispatch(setFilter(value))
-    }
-}
+    };
+};
 
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form)
-
-// Form.propTypes = {
-//     onFormSubmit: PropTypes.func.isRequired
-
-// }
+Form.propTypes = {
+    addContact: PropTypes.func.isRequired,
+    setFilter: PropTypes.func.isRequired,
+    contacts: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        number: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired
+    }))
+};
